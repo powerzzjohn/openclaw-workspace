@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "feishu-messaging": {
+      "version": "0.0.3",
+      "installedAt": 1770447919657
+    },
+    "seedance-video-generation": {
+      "version": "1.0.3",
+      "installedAt": 1771692436659
+    },
+    "evolver": {
+      "version": "1.14.0",
+      "installedAt": 1771827064219
+    }
+  }
+}

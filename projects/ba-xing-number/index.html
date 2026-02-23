@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>八星数字性格分析 | 数字能量学</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-blue': '#1a1a2e',
+            'dark-purple': '#16213e',
+            'accent-gold': '#ffd700',
+            'accent-cyan': '#00d9ff',
+            'star-purple': '#7b68ee',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+            'fade-in': 'fadeIn 0.5s ease-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 5px #ffd700, 0 0 10px #ffd700' },
+              '100%': { boxShadow: '0 0 20px #ffd700, 0 0 30px #ffd700' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap');
+    
+    body {
+      font-family: 'Noto Serif SC', serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      min-height: 100vh;
+      color: #e0e0e0;
+    }
+    
+    .glass-card {
+      background: rgba(22, 33, 62, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .star-card {
+      background: linear-gradient(145deg, rgba(22, 33, 62, 0.9), rgba(26, 26, 46, 0.9));
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .star-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+      border-color: #ffd700;
+    }
+    
+    .input-glow:focus {
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+      border-color: #00d9ff;
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+      color: #1a1a2e;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 25px rgba(255, 215, 0, 0.5);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+      color: #1a1a2e;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 25px rgba(0, 217, 255, 0.5);
+    }
+    
+    .tab-active {
+      border-bottom: 3px solid #ffd700;
+      color: #ffd700;
+    }
+    
+    .number-highlight {
+      background: linear-gradient(135deg, #ffd700, #ffb700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #ffd700, #00d9ff);
+    }
+    
+    .star-icon {
+      font-size: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    
+    /* 星空背景 */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <!-- 星空背景 -->
+  <div class="stars" id="stars"></div>
+  
+  <div id="app" class="container mx-auto px-4 py-6 max-w-4xl">
+    <!-- 标题区域 -->
+    <header class="text-center mb-8 animate-fade-in">
+      <h1 class="text-4xl md:text-5xl font-bold mb-2">
+        <span class="number-highlight">八星数字</span>
+        <span class="text-white">性格分析</span>
+      </h1>
+      <p class="text-accent-cyan text-lg">数字能量学 · 解读你的命运密码</p>
+      <div class="mt-4 flex justify-center space-x-2">
+        <span class="text-accent-gold">✦</span>
+        <span class="text-gray-400">探索数字背后的能量奥秘</span>
+        <span class="text-accent-gold">✦</span>
+      </div>
+    </header>
+
+    <!-- 功能切换标签 -->
+    <div class="flex justify-center mb-6 animate-fade-in">
+      <div class="glass-card rounded-full p-1 flex">
+        <button id="tab-single" class="px-6 py-2 rounded-full tab-active transition-all" onclick="switchTab('single')">
+          单人分析
+        </button>
+        <button id="tab-match" class="px-6 py-2 rounded-full text-gray-400 transition-all" onclick="switchTab('match')">
+          双人匹配
+        </button>
+      </div>
+    </div>
+
+    <!-- 单人分析区域 -->
+    <section id="section-single" class="animate-slide-up">
+      <div class="glass-card rounded-2xl p-6 md:p-8 mb-6">
+        <div class="text-center">
+          <label class="block text-accent-gold text-lg mb-4">输入手机号码</label>
+          <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+            <input 
+              type="tel" 
+              id="phone-input" 
+              placeholder="例如：138 1234 5678" 
+              class="w-full md:w-80 px-6 py-4 rounded-xl bg-dark-purple border-2 border-gray-600 text-white text-xl text-center input-glow focus:outline-none transition-all"
+              maxlength="13"
+            >
+            <button onclick="analyzeSingle()" class="btn-gradient px-8 py-4 rounded-xl text-lg">
+              开始分析
+            </button>
+          </div>
+          <p id="single-error" class="text-red-400 mt-3 hidden"></p>
+        </div>
+      </div>
+
+      <!-- 单人结果区域 -->
+      <div id="single-result" class="hidden">
+        <!-- 基本信息卡片 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <div class="text-center">
+            <p class="text-gray-400 mb-2">分析号码</p>
+            <h2 id="result-phone" class="text-3xl font-bold text-accent-gold mb-4"></h2>
+            <div class="flex justify-center gap-2 flex-wrap" id="number-groups"></div>
+          </div>
+        </div>
+
+        <!-- 星位分布图表 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4 text-center">八星能量分布</h3>
+          <div class="h-64 md:h-80">
+            <canvas id="star-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- 主导星位 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">主导星位</h3>
+          <div id="dominant-stars" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- 性格画像 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">性格画像</h3>
+          <div id="personality-profile" class="space-y-4"></div>
+        </div>
+
+        <!-- 职业建议 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">适合的职业方向</h3>
+          <div id="career-suggestions" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- 人际关系建议 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">人际关系建议</h3>
+          <div id="relationship-advice" class="space-y-3"></div>
+        </div>
+
+        <!-- 重新分析按钮 -->
+        <div class="text-center">
+          <button onclick="resetSingle()" class="btn-secondary px-6 py-3 rounded-xl">
+            重新分析
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 双人匹配区域 -->
+    <section id="section-match" class="hidden animate-slide-up">
+      <div class="glass-card rounded-2xl p-6 md:p-8 mb-6">
+        <div class="text-center">
+          <label class="block text-accent-gold text-lg mb-4">输入两个手机号码</label>
+          <div class="flex flex-col md:flex-row gap-4 justify-center items-center mb-4">
+            <input 
+              type="tel" 
+              id="phone1-input" 
+              placeholder="第一个号码" 
+              class="w-full md:w-64 px-4 py-3 rounded-xl bg-dark-purple border-2 border-gray-600 text-white text-lg text-center input-glow focus:outline-none"
+              maxlength="13"
+            >
+            <span class="text-accent-gold text-2xl">✦</span>
+            <input 
+              type="tel" 
+              id="phone2-input" 
+              placeholder="第二个号码" 
+              class="w-full md:w-64 px-4 py-3 rounded-xl bg-dark-purple border-2 border-gray-600 text-white text-lg text-center input-glow focus:outline-none"
+              maxlength="13"
+            >
+          </div>
+          <button onclick="analyzeMatch()" class="btn-gradient px-8 py-4 rounded-xl text-lg w-full md:w-auto">
+            开始匹配分析
+          </button>
+          <p id="match-error" class="text-red-400 mt-3 hidden"></p>
+        </div>
+      </div>
+
+      <!-- 匹配结果区域 -->
+      <div id="match-result" class="hidden">
+        <!-- 匹配度分数 -->
+        <div class="glass-card rounded-2xl p-6 mb-6 text-center">
+          <h3 class="text-xl text-gray-400 mb-4">数字能量匹配度</h3>
+          <div class="relative inline-block">
+            <svg class="w-40 h-40 transform -rotate-90">
+              <circle cx="80" cy="80" r="70" stroke="#333" stroke-width="10" fill="none"/>
+              <circle id="match-circle" cx="80" cy="80" r="70" stroke="url(#gradient)" stroke-width="10" fill="none"
+                stroke-dasharray="440" stroke-dashoffset="440" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#ffd700"/>
+                  <stop offset="100%" style="stop-color:#00d9ff"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span id="match-score" class="text-5xl font-bold text-accent-gold">0%</span>
+            </div>
+          </div>
+          <p id="match-level" class="text-xl text-accent-cyan mt-4"></p>
+        </div>
+
+        <!-- 双方星位对比 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4 text-center">双方能量分布对比</h3>
+          <div class="h-64 md:h-80">
+            <canvas id="match-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- 互补性分析 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">互补性分析</h3>
+          <div id="complement-analysis" class="space-y-4"></div>
+        </div>
+
+        <!-- 合作建议 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-accent-cyan mb-4">合作建议</h3>
+          <div id="cooperation-suggestions" class="space-y-3"></div>
+        </div>
+
+        <!-- 注意事项 -->
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-red-400 mb-4">注意事项</h3>
+          <div id="match-warnings" class="space-y-3"></div>
+        </div>
+
+        <!-- 重新分析按钮 -->
+        <div class="text-center">
+          <button onclick="resetMatch()" class="btn-secondary px-6 py-3 rounded-xl">
+            重新匹配
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 八星说明 -->
+    <section class="mt-12 animate-fade-in">
+      <div class="glass-card rounded-2xl p-6">
+        <h3 class="text-xl font-bold text-accent-gold mb-6 text-center">八星数字能量说明</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="star-reference"></div>
+      </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="text-center mt-8 text-gray-500 text-sm">
+      <p>八星数字能量学仅供参考娱乐，人生把握在自己手中</p>
+    </footer>
+  </div>
+
+  <script>
+    // ==================== 八星数字能量映射表 ====================
+    const starMap = {
+      // 伏位 - 保守稳重
+      '11': '伏位', '22': '伏位', '33': '伏位', '44': '伏位',
+      '66': '伏位', '77': '伏位', '88': '伏位', '99': '伏位',
+      // 生气 - 贵人运
+      '14': '生气', '41': '生气', '67': '生气', '76': '生气',
+      '39': '生气', '93': '生气', '28': '生气', '82': '生气',
+      // 延年 - 能力强
+      '19': '延年', '91': '延年', '78': '延年', '87': '延年',
+      '34': '延年', '43': '延年', '26': '延年', '62': '延年',
+      // 天医 - 财富智慧
+      '13': '天医', '31': '天医', '68': '天医', '86': '天医',
+      '49': '天医', '94': '天医', '27': '天医', '72': '天医',
+      // 六煞 - 情感丰富
+      '16': '六煞', '61': '六煞', '47': '六煞', '74': '六煞',
+      '38': '六煞', '83': '六煞', '29': '六煞', '92': '六煞',
+      // 祸害 - 口才
+      '17': '祸害', '71': '祸害', '89': '祸害', '98': '祸害',
+      '46': '祸害', '64': '祸害', '23': '祸害', '32': '祸害',
+      // 五鬼 - 才华
+      '18': '五鬼', '81': '五鬼', '79': '五鬼', '97': '五鬼',
+      '36': '五鬼', '63': '五鬼', '24': '五鬼', '42': '五鬼',
+      // 绝命 - 投资
+      '12': '绝命', '21': '绝命', '69': '绝命', '96': '绝命',
+      '48': '绝命', '84': '绝命', '37': '绝命', '73': '绝命',
+    };
+
+    // 八星详细信息
+    const starInfo = {
+      '伏位': {
+        icon: '🏔️',
+        trait: '保守、稳重、有耐心',
+        detail: '做事谨慎，不轻易改变，适合持久战',
+        careers: ['会计师', '审计师', '研究员', '档案管理', '质量控制'],
+        relationships: '在人际关系中较为被动，需要主动敞开心扉',
+        strengths: ['耐心', '稳重', '持久力', '细致'],
+        weaknesses: ['保守', '固执', '缺乏变通'],
+        color: '#8b7355',
+      },
+      '生气': {
+        icon: '🌟',
+        trait: '贵人运、乐观、随缘',
+        detail: '天生好运，遇事总有贵人相助，心态平和',
+        careers: ['公关', '销售', '咨询', '人力资源', '客户服务'],
+        relationships: '人缘极佳，容易获得他人信任和帮助',
+        strengths: ['乐观', '人缘好', '适应力强', '随缘'],
+        weaknesses: ['随遇而安', '缺乏野心', '容易满足'],
+        color: '#4ecdc4',
+      },
+      '延年': {
+        icon: '👑',
+        trait: '能力强、责任心重、领导',
+        detail: '天生的领导者，有担当，能做大事',
+        careers: ['管理者', '企业家', '项目经理', '军官', '政府官员'],
+        relationships: '在关系中倾向于主导，需要学会倾听',
+        strengths: ['领导力', '责任心', '执行力', '自信'],
+        weaknesses: ['强势', '固执', '压力大'],
+        color: '#ffd93d',
+      },
+      '天医': {
+        icon: '💰',
+        trait: '财富、智慧、正桃花',
+        detail: '财运亨通，聪明智慧，感情顺利',
+        careers: ['金融', '投资', '医生', '教育', '艺术创作'],
+        relationships: '感情丰富且真诚，容易吸引优质对象',
+        strengths: ['智慧', '财运', '直觉', '善良'],
+        weaknesses: ['容易轻信', '过于理想化'],
+        color: '#6bcf7f',
+      },
+      '六煞': {
+        icon: '💕',
+        trait: '情感丰富、异性缘、纠结',
+        detail: '感情细腻，异性缘好，但容易陷入情感纠结',
+        careers: ['心理咨询师', '艺术家', '设计师', '美容', '时尚'],
+        relationships: '情感丰富但容易纠结，需要学会断舍离',
+        strengths: ['敏感', '审美', '同理心', '魅力'],
+        weaknesses: ['纠结', '情绪化', '优柔寡断'],
+        color: '#ff6b9d',
+      },
+      '祸害': {
+        icon: '🗣️',
+        trait: '口才好、爱面子、是非多',
+        detail: '能言善辩，表达能力强，但容易言多必失',
+        careers: ['律师', '主持人', '培训师', '营销', '作家'],
+        relationships: '善于表达但需注意说话方式，避免口舌是非',
+        strengths: ['口才', '表达', '说服力', '机智'],
+        weaknesses: ['爱面子', '是非', '言辞尖锐'],
+        color: '#ff8c42',
+      },
+      '五鬼': {
+        icon: '🔮',
+        trait: '才华横溢、变化多端',
+        detail: '聪明绝顶，创意无限，但想法多变不稳定',
+        careers: ['创意总监', '程序员', '发明家', '策划', '神秘学'],
+        relationships: '思维独特，需要理解包容的伴侣',
+        strengths: ['创意', '聪明', '直觉', '独特'],
+        weaknesses: ['善变', '不稳定', '难以捉摸'],
+        color: '#9b59b6',
+      },
+      '绝命': {
+        icon: '⚡',
+        trait: '投资运、冲动、极端',
+        detail: '敢于冒险，投资眼光独到，但容易冲动行事',
+        careers: ['投资人', '创业者', '销售', '运动员', '探险家'],
+        relationships: '爱恨分明，需要学会控制情绪和冲动',
+        strengths: ['果断', '行动力', '冒险精神', '直接'],
+        weaknesses: ['冲动', '极端', '风险高'],
+        color: '#e74c3c',
+      },
+    };
+
+    // 全局变量
+    let singleChart = null;
+    let matchChart = null;
+
+    // ==================== 初始化 ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      initStarBackground();
+      renderStarReference();
+      setupPhoneInput('phone-input');
+      setupPhoneInput('phone1-input');
+      setupPhoneInput('phone2-input');
+    });
+
+    // 初始化星空背景
+    function initStarBackground() {
+      const starsContainer = document.getElementById('stars');
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.opacity = Math.random();
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // 渲染八星说明
+    function renderStarReference() {
+      const container = document.getElementById('star-reference');
+      Object.entries(starInfo).forEach(([name, info]) => {
+        const card = document.createElement('div');
+        card.className = 'star-card rounded-xl p-4';
+        card.innerHTML = `
+          <div class="flex items-center mb-2">
+            <span class="star-icon">${info.icon}</span>
+            <span class="font-bold text-lg" style="color: ${info.color}">${name}</span>
+          </div>
+          <p class="text-gray-300 text-sm mb-2">${info.trait}</p>
+          <p class="text-gray-500 text-xs">${info.detail}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 设置手机号输入框格式化
+    function setupPhoneInput(inputId) {
+      const input = document.getElementById(inputId);
+      input.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 3 && value.length <= 7) {
+          value = value.slice(0, 3) + ' ' + value.slice(3);
+        } else if (value.length > 7) {
+          value = value.slice(0, 3) + ' ' + value.slice(3, 7) + ' ' + value.slice(7, 11);
+        }
+        e.target.value = value;
+      });
+    }
+
+    // ==================== 标签切换 ====================
+    function switchTab(tab) {
+      document.getElementById('tab-single').className = tab === 'single' 
+        ? 'px-6 py-2 rounded-full tab-active transition-all' 
+        : 'px-6 py-2 rounded-full text-gray-400 transition-all';
+      document.getElementById('tab-match').className = tab === 'match' 
+        ? 'px-6 py-2 rounded-full tab-active transition-all' 
+        : 'px-6 py-2 rounded-full text-gray-400 transition-all';
+      
+      document.getElementById('section-single').classList.toggle('hidden', tab !== 'single');
+      document.getElementById('section-match').classList.toggle('hidden', tab !== 'match');
+    }
+
+    // ==================== 单人分析功能 ====================
+    
+    /**
+     * 验证手机号格式
+     * @param {string} phone - 手机号
+     * @returns {boolean}
+     */
+    function validatePhone(phone) {
+      const digits = phone.replace(/\D/g, '');
+      return /^1[3-9]\d{9}$/.test(digits);
+    }
+
+    /**
+     * 提取手机号最后8位并分组
+     * @param {string} phone - 手机号
+     * @returns {string[]}
+     */
+    function extractGroups(phone) {
+      const digits = phone.replace(/\D/g, '');
+      const last8 = digits.slice(-8);
+      const groups = [];
+      for (let i = 0; i < last8.length; i += 2) {
+        groups.push(last8.slice(i, i + 2));
+      }
+      return groups;
+    }
+
+    /**
+     * 分析数字组合对应的星位
+     * @param {string[]} groups - 数字组合数组
+     * @returns {Object}
+     */
+    function analyzeStarDistribution(groups) {
+      const distribution = {};
+      const details = [];
+      
+      groups.forEach(group => {
+        const star = starMap[group] || '未知';
+        details.push({ group, star });
+        distribution[star] = (distribution[star] || 0) + 1;
+      });
+      
+      return { distribution, details };
+    }
+
+    /**
+     * 生成性格画像
+     * @param {Object} distribution - 星位分布
+     * @returns {Object}
+     */
+    function generatePersonalityProfile(distribution) {
+      const sortedStars = Object.entries(distribution)
+        .sort((a, b) => b[1] - a[1]);
+      
+      const dominantStar = sortedStars[0]?.[0];
+      const dominantInfo = starInfo[dominantStar];
+      
+      // 综合性格描述
+      let description = '';
+      const allTraits = [];
+      
+      sortedStars.forEach(([star, count]) => {
+        if (starInfo[star]) {
+          allTraits.push(...starInfo[star].strengths);
+        }
+      });
+      
+      const uniqueTraits = [...new Set(allTraits)].slice(0, 5);
+      
+      description = `你的数字能量显示，你是一个${dominantInfo?.trait || '独特'}的人。`;
+      description += `核心特质包括：${uniqueTraits.join('、')}。`;
+      
+      if (sortedStars.length > 1) {
+        description += `同时受到${sortedStars[1][0]}能量的影响，让你在${starInfo[sortedStars[1][0]]?.trait || ''}方面也有突出表现。`;
+      }
+      
+      // 职业建议
+      const careers = [];
+      sortedStars.slice(0, 2).forEach(([star]) => {
+        if (starInfo[star]) {
+          careers.push(...starInfo[star].careers);
+        }
+      });
+      
+      // 人际关系建议
+      const relationshipTips = [];
+      sortedStars.forEach(([star]) => {
+        if (starInfo[star]?.relationships) {
+          relationshipTips.push(starInfo[star].relationships);
+        }
+      });
+      
+      return {
+        description,
+        dominantStar,
+        careers: [...new Set(careers)],
+        relationshipTips: [...new Set(relationshipTips)],
+        sortedStars,
+      };
+    }
+
+    /**
+     * 执行单人分析
+     */
+    function analyzeSingle() {
+      const phoneInput = document.getElementById('phone-input');
+      const phone = phoneInput.value.trim();
+      const errorEl = document.getElementById('single-error');
+      
+      if (!validatePhone(phone)) {
+        errorEl.textContent = '请输入有效的11位手机号码';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+      
+      errorEl.classList.add('hidden');
+      
+      // 分析号码
+      const groups = extractGroups(phone);
+      const { distribution, details } = analyzeStarDistribution(groups);
+      const profile = generatePersonalityProfile(distribution);
+      
+      // 显示结果
+      displaySingleResult(phone, groups, details, distribution, profile);
+    }
+
+    /**
+     * 显示单人分析结果
+     */
+    function displaySingleResult(phone, groups, details, distribution, profile) {
+      document.getElementById('single-result').classList.remove('hidden');
+      document.getElementById('result-phone').textContent = phone;
+      
+      // 显示数字分组
+      const groupsEl = document.getElementById('number-groups');
+      groupsEl.innerHTML = details.map(({ group, star }) => `
+        <div class="star-card rounded-lg px-3 py-2 text-center">
+          <div class="text-accent-gold font-bold text-lg">${group}</div>
+          <div class="text-xs text-gray-400">${star}</div>
+        </div>
+      `).join('');
+      
+      // 渲染图表
+      renderStarChart(distribution);
+      
+      // 显示主导星位
+      const dominantEl = document.getElementById('dominant-stars');
+      dominantEl.innerHTML = profile.sortedStars.slice(0, 3).map(([star, count], idx) => {
+        const info = starInfo[star];
+        const percentage = ((count / 4) * 100).toFixed(0);
+        return `
+          <div class="star-card rounded-xl p-4 ${idx === 0 ? 'border-accent-gold' : ''}">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center">
+                <span class="text-2xl mr-2">${info?.icon || '✨'}</span>
+                <span class="font-bold text-lg" style="color: ${info?.color || '#fff'}">${star}</span>
+              </div>
+              <span class="text-accent-gold font-bold">${percentage}%</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2 mb-2">
+              <div class="progress-bar h-2 rounded-full" style="width: ${percentage}%"></div>
+            </div>
+            <p class="text-sm text-gray-300">${info?.trait || ''}</p>
+          </div>
+        `;
+      }).join('');
+      
+      // 显示性格画像
+      document.getElementById('personality-profile').innerHTML = `
+        <div class="star-card rounded-xl p-4">
+          <p class="text-gray-200 leading-relaxed">${profile.description}</p>
+        </div>
+        <div class="mt-4">
+          <h4 class="text-accent-cyan mb-2">核心优势</h4>
+          <div class="flex flex-wrap gap-2">
+            ${profile.sortedStars.slice(0, 2).flatMap(([star]) => 
+              starInfo[star]?.strengths.map(s => 
+                `<span class="px-3 py-1 rounded-full bg-dark-purple border border-accent-gold text-accent-gold text-sm">${s}</span>`
+              ) || []
+            ).join('')}
+          </div>
+        </div>
+        <div class="mt-4">
+          <h4 class="text-red-400 mb-2">需要注意</h4>
+          <div class="flex flex-wrap gap-2">
+            ${profile.sortedStars.slice(0, 2).flatMap(([star]) => 
+              starInfo[star]?.weaknesses.map(w => 
+                `<span class="px-3 py-1 rounded-full bg-dark-purple border border-red-400 text-red-400 text-sm">${w}</span>`
+              ) || []
+            ).join('')}
+          </div>
+        </div>
+      `;
+      
+      // 显示职业建议
+      document.getElementById('career-suggestions').innerHTML = 
+        profile.careers.slice(0, 8).map(career => 
+          `<span class="px-4 py-2 rounded-xl bg-dark-purple border border-accent-cyan text-accent-cyan">${career}</span>`
+        ).join('');
+      
+      // 显示人际关系建议
+      document.getElementById('relationship-advice').innerHTML = 
+        profile.relationshipTips.map(tip => 
+          `<div class="flex items-start">
+            <span class="text-accent-gold mr-2">✦</span>
+            <p class="text-gray-300">${tip}</p>
+          </div>`
+        ).join('');
+      
+      // 滚动到结果
+      document.getElementById('single-result').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * 渲染星位分布图表
+     */
+    function renderStarChart(distribution) {
+      const ctx = document.getElementById('star-chart').getContext('2d');
+      
+      if (singleChart) {
+        singleChart.destroy();
+      }
+      
+      const labels = Object.keys(distribution);
+      const data = Object.values(distribution);
+      const colors = labels.map(star => starInfo[star]?.color || '#888');
+      
+      singleChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels,
+          datasets: [{
+            data,
+            backgroundColor: colors,
+            borderColor: '#1a1a2e',
+            borderWidth: 2,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                color: '#e0e0e0',
+                font: { size: 12 },
+                padding: 15,
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => `${context.label}: ${context.raw} 组`,
+              },
+            },
+          },
+        },
+      });
+    }
+
+    function resetSingle() {
+      document.getElementById('phone-input').value = '';
+      document.getElementById('single-result').classList.add('hidden');
+      document.getElementById('single-error').classList.add('hidden');
+    }
+
+    // ==================== 双人匹配功能 ====================
+    
+    /**
+     * 计算两个号码的匹配度
+     * @param {Object} dist1 - 第一个号码的星位分布
+     * @param {Object} dist2 - 第二个号码的星位分布
+     * @returns {Object}
+     */
+    function calculateMatchScore(dist1, dist2) {
+      const stars = Object.keys({ ...dist1, ...dist2 });
+      let totalDiff = 0;
+      let complementary = 0;
+      let conflicts = 0;
+      
+      const starPairs = [
+        ['天医', '生气'], ['天医', '延年'], ['生气', '延年'],
+        ['伏位', '延年'], ['伏位', '天医'],
+      ];
+      
+      const conflictPairs = [
+        ['绝命', '六煞'], ['五鬼', '祸害'], ['绝命', '五鬼'],
+      ];
+      
+      stars.forEach(star => {
+        const count1 = dist1[star] || 0;
+        const count2 = dist2[star] || 0;
+        totalDiff += Math.abs(count1 - count2);
+        
+        // 检查互补性
+        starPairs.forEach(([s1, s2]) => {
+          if ((dist1[s1] && dist2[s2]) || (dist1[s2] && dist2[s1])) {
+            complementary++;
+          }
+        });
+        
+        // 检查冲突
+        conflictPairs.forEach(([s1, s2]) => {
+          if ((dist1[s1] && dist2[s2]) || (dist1[s2] && dist2[s1])) {
+            conflicts++;
+          }
+        });
+      });
+      
+      // 计算匹配度 (0-100)
+      let score = 100 - (totalDiff * 5);
+      score += complementary * 10;
+      score -= conflicts * 15;
+      
+      // 确保在合理范围内
+      score = Math.max(20, Math.min(98, score));
+      
+      let level = '';
+      if (score >= 85) level = '天作之合 ✨';
+      else if (score >= 70) level = '非常般配 💕';
+      else if (score >= 55) level = '互补共赢 🤝';
+      else if (score >= 40) level = '需要磨合 💫';
+      else level = '挑战成长 🌱';
+      
+      return { score: Math.round(score), level, complementary, conflicts };
+    }
+
+    /**
+     * 生成互补性分析
+     */
+    function generateComplementAnalysis(dist1, dist2) {
+      const analyses = [];
+      const stars1 = Object.keys(dist1);
+      const stars2 = Object.keys(dist2);
+      
+      // 找出各自的主导星位
+      const dominant1 = stars1.reduce((a, b) => dist1[a] > dist1[b] ? a : b);
+      const dominant2 = stars2.reduce((a, b) => dist2[a] > dist2[b] ? a : b);
+      
+      const info1 = starInfo[dominant1];
+      const info2 = starInfo[dominant2];
+      
+      analyses.push({
+        title: '能量互补',
+        content: `甲方主导${dominant1}（${info1.trait}），乙方主导${dominant2}（${info2.trait}），两者结合可以形成良好的互补。`,
+      });
+      
+      // 检查具体互补点
+      const complementMap = {
+        '延年': '伏位',
+        '伏位': '生气',
+        '生气': '天医',
+        '天医': '延年',
+        '六煞': '天医',
+        '祸害': '生气',
+        '五鬼': '伏位',
+        '绝命': '天医',
+      };
+      
+      if (complementMap[dominant1] === dominant2) {
+        analyses.push({
+          title: '完美搭配',
+          content: `${dominant1}与${dominant2}是理想的能量组合，能够相互促进、共同成长。`,
+        });
+      }
+      
+      return analyses;
+    }
+
+    /**
+     * 执行双人匹配分析
+     */
+    function analyzeMatch() {
+      const phone1 = document.getElementById('phone1-input').value.trim();
+      const phone2 = document.getElementById('phone2-input').value.trim();
+      const errorEl = document.getElementById('match-error');
+      
+      if (!validatePhone(phone1) || !validatePhone(phone2)) {
+        errorEl.textContent = '请输入两个有效的11位手机号码';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+      
+      if (phone1.replace(/\D/g, '') === phone2.replace(/\D/g, '')) {
+        errorEl.textContent = '请输入两个不同的手机号码';
+        errorEl.classList.remove('hidden');
+        return;
+      }
+      
+      errorEl.classList.add('hidden');
+      
+      // 分析两个号码
+      const groups1 = extractGroups(phone1);
+      const groups2 = extractGroups(phone2);
+      const { distribution: dist1 } = analyzeStarDistribution(groups1);
+      const { distribution: dist2 } = analyzeStarDistribution(groups2);
+      
+      // 计算匹配度
+      const matchResult = calculateMatchScore(dist1, dist2);
+      const complementAnalyses = generateComplementAnalysis(dist1, dist2);
+      
+      // 显示结果
+      displayMatchResult(phone1, phone2, dist1, dist2, matchResult, complementAnalyses);
+    }
+
+    /**
+     * 显示匹配结果
+     */
+    function displayMatchResult(phone1, phone2, dist1, dist2, matchResult, complementAnalyses) {
+      document.getElementById('match-result').classList.remove('hidden');
+      
+      // 动画显示匹配度
+      animateMatchScore(matchResult.score);
+      document.getElementById('match-level').textContent = matchResult.level;
+      
+      // 渲染对比图表
+      renderMatchChart(dist1, dist2);
+      
+      // 显示互补性分析
+      document.getElementById('complement-analysis').innerHTML = complementAnalyses.map(analysis => `
+        <div class="star-card rounded-xl p-4">
+          <h4 class="text-accent-gold font-bold mb-2">${analysis.title}</h4>
+          <p class="text-gray-300">${analysis.content}</p>
+        </div>
+      `).join('');
+      
+      // 生成合作建议
+      const suggestions = generateCooperationSuggestions(dist1, dist2);
+      document.getElementById('cooperation-suggestions').innerHTML = suggestions.map(s => `
+        <div class="flex items-start">
+          <span class="text-accent-cyan mr-2">▸</span>
+          <p class="text-gray-300">${s}</p>
+        </div>
+      `).join('');
+      
+      // 生成注意事项
+      const warnings = generateMatchWarnings(dist1, dist2);
+      document.getElementById('match-warnings').innerHTML = warnings.map(w => `
+        <div class="flex items-start">
+          <span class="text-red-400 mr-2">⚠</span>
+          <p class="text-gray-300">${w}</p>
+        </div>
+      `).join('');
+      
+      // 滚动到结果
+      document.getElementById('match-result').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /**
+     * 动画显示匹配度
+     */
+    function animateMatchScore(targetScore) {
+      const circle = document.getElementById('match-circle');
+      const scoreEl = document.getElementById('match-score');
+      const circumference = 440;
+      
+      let currentScore = 0;
+      const duration = 1500;
+      const startTime = performance.now();
+      
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // 缓动函数
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        currentScore = Math.round(targetScore * easeOut);
+        
+        scoreEl.textContent = currentScore + '%';
+        const offset = circumference - (currentScore / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+
+    /**
+     * 渲染匹配对比图表
+     */
+    function renderMatchChart(dist1, dist2) {
+      const ctx = document.getElementById('match-chart').getContext('2d');
+      
+      if (matchChart) {
+        matchChart.destroy();
+      }
+      
+      const allStars = [...new Set([...Object.keys(dist1), ...Object.keys(dist2)])];
+      const data1 = allStars.map(star => dist1[star] || 0);
+      const data2 = allStars.map(star => dist2[star] || 0);
+      
+      matchChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: allStars,
+          datasets: [
+            {
+              label: '甲方',
+              data: data1,
+              backgroundColor: 'rgba(255, 215, 0, 0.7)',
+              borderColor: '#ffd700',
+              borderWidth: 1,
+            },
+            {
+              label: '乙方',
+              data: data2,
+              backgroundColor: 'rgba(0, 217, 255, 0.7)',
+              borderColor: '#00d9ff',
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#e0e0e0' },
+              grid: { color: 'rgba(255,255,255,0.1)' },
+            },
+            x: {
+              ticks: { color: '#e0e0e0' },
+              grid: { display: false },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: { color: '#e0e0e0' },
+            },
+          },
+        },
+      });
+    }
+
+    /**
+     * 生成合作建议
+     */
+    function generateCooperationSuggestions(dist1, dist2) {
+      const suggestions = [];
+      const stars1 = Object.keys(dist1);
+      const stars2 = Object.keys(dist2);
+      
+      if (stars1.includes('延年') || stars2.includes('延年')) {
+        suggestions.push('双方中有人具备领导能力，适合由该方主导重要决策。');
+      }
+      
+      if (stars1.includes('天医') || stars2.includes('天医')) {
+        suggestions.push('财运能量较强，适合共同开展商业项目或投资。');
+      }
+      
+      if (stars1.includes('生气') || stars2.includes('生气')) {
+        suggestions.push('贵人运旺盛，遇到困难时容易获得外部帮助。');
+      }
+      
+      if (stars1.includes('五鬼') || stars2.includes('五鬼')) {
+        suggestions.push('创意能量丰富，适合从事创新类工作，但需注意执行落地。');
+      }
+      
+      suggestions.push('定期沟通，理解彼此的性格特点，发挥各自优势。');
+      suggestions.push('在重要决定前，充分考虑双方的意见和感受。');
+      
+      return suggestions;
+    }
+
+    /**
+     * 生成匹配注意事项
+     */
+    function generateMatchWarnings(dist1, dist2) {
+      const warnings = [];
+      const allStars = [...new Set([...Object.keys(dist1), ...Object.keys(dist2)])];
+      
+      if (allStars.includes('绝命')) {
+        warnings.push('双方或一方有冲动倾向，重大决策建议冷静后再做。');
+      }
+      
+      if (allStars.includes('六煞') && allStars.includes('祸害')) {
+        warnings.push('情感细腻与口才直率的组合，沟通时需注意表达方式。');
+      }
+      
+      if (allStars.includes('五鬼') && allStars.includes('伏位')) {
+        warnings.push('变化多端与保守稳重的差异，需要更多包容和理解。');
+      }
+      
+      if (warnings.length === 0) {
+        warnings.push('每对组合都有独特之处，保持开放心态，共同成长。');
+      }
+      
+      return warnings;
+    }
+
+    function resetMatch() {
+      document.getElementById('phone1-input').value = '';
+      document.getElementById('phone2-input').value = '';
+      document.getElementById('match-result').classList.add('hidden');
+      document.getElementById('match-error').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

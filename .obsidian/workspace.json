@@ -1,0 +1,206 @@
+{
+  "main": {
+    "id": "88fb357d67fa103b",
+    "type": "split",
+    "children": [
+      {
+        "id": "52e1b269f4e7a644",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "38051b90ba4595dc",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "新标签页"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "ec73b6c7e365f2e5",
+    "type": "split",
+    "children": [
+      {
+        "id": "6da15c03709a9ff3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fc28437cc1126476",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "082bb4be7282cf01",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "83ed6746c19c5ac3",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b8fe593a3e0a1e39",
+    "type": "split",
+    "children": [
+      {
+        "id": "abb490673e5fa8d8",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f1e10d6b874da681",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "公众号项目/已发布文章/第4期-允许慢下来.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "第4期-允许慢下来 的反向链接列表"
+            }
+          },
+          {
+            "id": "0a3518a7f54c1abf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "公众号项目/已发布文章/第4期-允许慢下来.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "第4期-允许慢下来 的出链列表"
+            }
+          },
+          {
+            "id": "535910007992cfda",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "fad927d768e36733",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "c3bdc4939cee1788",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "公众号项目/已发布文章/第4期-允许慢下来.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "第4期-允许慢下来 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "38051b90ba4595dc",
+  "lastOpenFiles": [
+    "SOUL.md",
+    "公众号项目/已发布文章/第4期-允许慢下来.md",
+    "SESSION-STATE.md",
+    "skills/elite-longterm-memory/bin/elite-memory.js",
+    "skills/elite-longterm-memory/package.json",
+    "skills/elite-longterm-memory/SKILL.md",
+    "skills/elite-longterm-memory/README.md",
+    "skills/elite-longterm-memory/bin",
+    "skills/elite-longterm-memory",
+    "skills/skills",
+    "check-sleep.sh",
+    "memory/渔樵问对语录.md",
+    "skills/jina-ai-reader/jina-read",
+    "skills/jina-ai-reader/SKILL.md",
+    "skills/jina-ai-reader",
+    "公众号项目/虾哥初稿/第4期-允许慢下来-800字.md",
+    "公众号项目/已发布文章/第4期-允许慢下来-800字版.md",
+    "公众号项目/虾哥初稿/第4期-允许慢下来-800字版.md",
+    "公众号项目/虾哥初稿/第4期-允许慢下来-800字版_副本.md",
+    "公众号项目/已发布文章/第3期-允许练习-虾哥初稿（修订版）.md",
+    "公众号项目/已发布文章/第5期-新年祝贺海报.png"
+  ]
+}
