@@ -1,0 +1,95 @@
+{
+  "WFWorkflowClientVersion": "1092.0.2",
+  "WFWorkflowClientRelease": "4.0",
+  "WFWorkflowMinimumClientVersion": 900,
+  "WFWorkflowMinimumClientVersionString": "900",
+  "WFWorkflowIcon": {
+    "WFWorkflowIconStartColor": 4282601983,
+    "WFWorkflowIconGlyphNumber": 61602
+  },
+  "WFWorkflowImportQuestions": [],
+  "WFWorkflowTypes": [
+    "NCWidget",
+    "WatchKit"
+  ],
+  "WFWorkflowInputContentItemClasses": [
+    "WFAppStoreAppContentItem",
+    "WFArticleContentItem",
+    "WFContactContentItem",
+    "WFDateContentItem",
+    "WFEmailAddressContentItem",
+    "WFGenericFileContentItem",
+    "WFImageContentItem",
+    "WFiTunesProductContentItem",
+    "WFLocationContentItem",
+    "WFDCMapsLinkContentItem",
+    "WFAVAssetContentItem",
+    "WFPDFContentItem",
+    "WFPhoneNumberContentItem",
+    "WFRichTextContentItem",
+    "WFSafariWebPageContentItem",
+    "WFStringContentItem",
+    "WFURLContentItem"
+  ],
+  "WFWorkflowActions": [
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.comment",
+      "WFWorkflowActionParameters": {
+        "WFCommentActionText": "Journal → 共享相簿\n\n功能：\n1. 获取今天的手记条目\n2. 提取其中的图片\n3. 保存到共享相簿「Journal-虾哥」\n\n使用：\n- 手动运行 或\n- 设置自动化（推荐每天 23:00）"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.getmyworkflows",
+      "WFWorkflowActionParameters": {
+        "WFGetMyWorkflowsMode": "All Journals"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.filter.journal",
+      "WFWorkflowActionParameters": {
+        "WFContentItemSortProperty": "Creation Date",
+        "WFContentItemSortOrder": "Latest First",
+        "WFContentItemLimitEnabled": true,
+        "WFContentItemLimitNumber": 20
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each",
+      "WFWorkflowActionParameters": {
+        "GroupingIdentifier": "REPEAT_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.getmyworkflows",
+      "WFWorkflowActionParameters": {
+        "WFGetMyWorkflowsMode": "Photos"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.savetocameraroll",
+      "WFWorkflowActionParameters": {
+        "WFCameraRollSelectedGroup": "Journal-虾哥"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.repeat.count",
+      "WFWorkflowActionParameters": {
+        "WFControlFlowMode": 2,
+        "GroupingIdentifier": "REPEAT_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.showresult",
+      "WFWorkflowActionParameters": {
+        "Text": {
+          "Value": {
+            "string": "✅ Journal 导出完成！\n图片已添加到共享相簿「Journal-虾哥」",
+            "attachmentsByRange": {}
+          },
+          "WFSerializationType": "WFTextTokenString"
+        }
+      }
+    }
+  ],
+  "WFWorkflowName": "Journal导出到相簿"
+}

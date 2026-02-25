@@ -2,6 +2,11 @@
 # 飞书通道健康检查脚本
 # 用于 HEARTBEAT 自动检测和修复飞书连接
 
+# ========== 自动重启开关 ==========
+# 设置为 false 可关闭自动重启功能（仅检测报告）
+AUTO_RESTART_ENABLED=false
+# =================================
+
 LOG_FILE="/tmp/openclaw/openclaw-$(date +%Y-%m-%d).log"
 CHECK_WINDOW_MINUTES=30  # 检查最近30分钟的日志
 ALERT_FILE="$HOME/.openclaw/workspace/alerts/feishu_connection_alert.txt"
@@ -37,15 +42,19 @@ done
 # 判断是否需要重启
 # 如果有错误，且最近没有成功消息，则尝试重启
 if [ -n "$RECENT_ERRORS" ] && [ -z "$RECENT_SUCCESS" ]; then
-    echo "$(date): Feishu connection issues detected, attempting restart..."
+    echo "$(date): Feishu connection issues detected"
     
     # 记录警报
-    echo "$(date): Feishu connection unstable, auto-restarting gateway" > "$ALERT_FILE"
+    echo "$(date): Feishu connection unstable" > "$ALERT_FILE"
     
-    # 重启网关
-    openclaw gateway restart 2>&1
-    
-    echo "$(date): Gateway restarted"
+    # 检查是否启用自动重启
+    if [ "$AUTO_RESTART_ENABLED" = true ]; then
+        echo "$(date): Auto-restart is ENABLED, restarting gateway..."
+        openclaw gateway restart 2>&1
+        echo "$(date): Gateway restarted"
+    else
+        echo "$(date): Auto-restart is DISABLED, manual intervention required"
+    fi
     exit 1
 fi
 

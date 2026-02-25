@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "52e1b269f4e7a644",
+        "id": "f5fb081f5bb6649d",
         "type": "tabs",
         "children": [
           {
-            "id": "38051b90ba4595dc",
+            "id": "d99c8f9bc428c016",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -179,8 +179,9 @@
       "bases:新建数据库": false
     }
   },
-  "active": "38051b90ba4595dc",
+  "active": "d99c8f9bc428c016",
   "lastOpenFiles": [
+    "公众号项目/虾哥初稿/第6期-那个总担心来不及的人.md",
     "SOUL.md",
     "公众号项目/已发布文章/第4期-允许慢下来.md",
     "SESSION-STATE.md",

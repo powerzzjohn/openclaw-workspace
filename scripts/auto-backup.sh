@@ -20,13 +20,28 @@ fi
 git add -A
 
 # 提交
-git commit -m "auto: $(date '+%Y-%m-%d %H:%M') 自动备份"
+git commit -m "auto: $(date '+%Y-%m-%d %H:%M') 自动备份" || {
+    echo "$(date): 提交失败或无变更" >> "$LOG_FILE"
+    exit 0
+}
 
-# 每天 00:00 推送（检查小时是否为 00）
+# 推送（带重试）
 HOUR=$(date '+%H')
 if [ "$HOUR" -eq "00" ]; then
-    git push origin main
-    echo "$(date): 已推送到 GitHub" >> "$LOG_FILE"
+    for i in 1 2 3; do
+        if git push origin main 2>> "$LOG_FILE"; then
+            echo "$(date): 已推送到 GitHub" >> "$LOG_FILE"
+            break
+        else
+            echo "$(date): 推送失败，尝试 $i/3..." >> "$LOG_FILE"
+            sleep 10
+        fi
+    done
+    
+    # 记录推送失败
+    if [ $i -eq 3 ]; then
+        echo "$(date): 推送最终失败，请检查网络" >> "$LOG_FILE"
+    fi
 else
     echo "$(date): 已本地提交，等待 00:00 推送" >> "$LOG_FILE"
 fi

@@ -1,0 +1,168 @@
+{
+  "WFWorkflowClientVersion": "1092.0.2",
+  "WFWorkflowClientRelease": "4.0",
+  "WFWorkflowMinimumClientVersion": 900,
+  "WFWorkflowMinimumClientVersionString": "900",
+  "WFWorkflowIcon": {
+    "WFWorkflowIconStartColor": 4292093695,
+    "WFWorkflowIconGlyphNumber": 61440
+  },
+  "WFWorkflowImportQuestions": [],
+  "WFWorkflowTypes": [
+    "NCWidget",
+    "WatchKit"
+  ],
+  "WFWorkflowInputContentItemClasses": [
+    "WFAppStoreAppContentItem",
+    "WFArticleContentItem",
+    "WFContactContentItem",
+    "WFDateContentItem",
+    "WFEmailAddressContentItem",
+    "WFGenericFileContentItem",
+    "WFImageContentItem",
+    "WFiTunesProductContentItem",
+    "WFLocationContentItem",
+    "WFDCMapsLinkContentItem",
+    "WFAVAssetContentItem",
+    "WFPDFContentItem",
+    "WFPhoneNumberContentItem",
+    "WFRichTextContentItem",
+    "WFSafariWebPageContentItem",
+    "WFStringContentItem",
+    "WFURLContentItem"
+  ],
+  "WFWorkflowActions": [
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.comment",
+      "WFWorkflowActionParameters": {
+        "WFCommentActionText": "📱 Journal 导出工具\n\n功能：\n1. 导出 Journal 条目中的图片到 iCloud Drive\n2. 导出文字内容到备忘录\n\n作者：虾哥"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.getmyworkflows",
+      "WFWorkflowActionParameters": {
+        "WFGetMyWorkflowsMode": "All Journals"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.filter.journal",
+      "WFWorkflowActionParameters": {
+        "WFContentItemSortProperty": "Creation Date",
+        "WFContentItemSortOrder": "Latest First",
+        "WFContentItemLimitEnabled": true,
+        "WFContentItemLimitNumber": 10
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each",
+      "WFWorkflowActionParameters": {
+        "WFRepeatItems": {
+          "Value": {
+            "Type": "ExtensionInput"
+          },
+          "WFSerializationType": "WFWorkflowTokenAttachment"
+        },
+        "GroupingIdentifier": "REPEAT_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.getvalueforkey",
+      "WFWorkflowActionParameters": {
+        "WFDictionaryKey": "photos",
+        "GroupingIdentifier": "REPEAT_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.conditional",
+      "WFWorkflowActionParameters": {
+        "WFCondition": 100,
+        "WFNumberValue": 0,
+        "GroupingIdentifier": "IF_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.documentpicker.save",
+      "WFWorkflowActionParameters": {
+        "WFAskWhereToSave": false,
+        "WFFileDestinationPath": "/JournalExports/IMG_",
+        "WFAskToOverwrite": false,
+        "GroupingIdentifier": "IF_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.conditional",
+      "WFWorkflowActionParameters": {
+        "WFControlFlowMode": 2,
+        "GroupingIdentifier": "IF_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.getvalueforkey",
+      "WFWorkflowActionParameters": {
+        "WFDictionaryKey": "text",
+        "GroupingIdentifier": "REPEAT_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.conditional",
+      "WFWorkflowActionParameters": {
+        "WFCondition": 100,
+        "WFNumberValue": 0,
+        "GroupingIdentifier": "IF_GROUP_2"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.appendnote",
+      "WFWorkflowActionParameters": {
+        "WFNote": {
+          "Value": {
+            "string": "📅 日期: «当前日期»\n📝 内容: «重复项目»\n---",
+            "attachmentsByRange": {
+              "{8, 8}": {
+                "Type": "CurrentDate"
+              },
+              "{25, 8}": {
+                "Type": "CurrentDate"
+              }
+            }
+          },
+          "WFSerializationType": "WFTextTokenString"
+        },
+        "WFNoteFolder": {
+          "Value": {
+            "Type": "ExtensionInput"
+          },
+          "WFSerializationType": "WFWorkflowTokenAttachment"
+        },
+        "GroupingIdentifier": "IF_GROUP_2"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.conditional",
+      "WFWorkflowActionParameters": {
+        "WFControlFlowMode": 2,
+        "GroupingIdentifier": "IF_GROUP_2"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.repeat.count",
+      "WFWorkflowActionParameters": {
+        "WFControlFlowMode": 2,
+        "GroupingIdentifier": "REPEAT_GROUP_1"
+      }
+    },
+    {
+      "WFWorkflowActionIdentifier": "is.workflow.actions.showresult",
+      "WFWorkflowActionParameters": {
+        "Text": {
+          "Value": {
+            "string": "✅ Journal 导出完成！\n\n图片已保存到 iCloud Drive/JournalExports/\n文字已追加到备忘录「Journal导出」",
+            "attachmentsByRange": {}
+          },
+          "WFSerializationType": "WFTextTokenString"
+        }
+      }
+    }
+  ],
+  "WFWorkflowName": "Journal导出工具"
+}
