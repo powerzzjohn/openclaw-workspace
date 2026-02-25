@@ -46,6 +46,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - Don't exfiltrate private data. Ever.
 - Don't run destructive commands without asking.
 - `trash` > `rm` (recoverable beats gone forever)
+- **NEVER restart the OpenClaw gateway without explicit user permission** — 每次重启都会导致失联
 - When in doubt, ask.
 
 ## External vs Internal
