@@ -2,6 +2,15 @@
   "mcpServers": {
     "exa": {
       "baseUrl": "https://mcp.exa.ai/mcp"
+    },
+    "linkedin": {
+      "baseUrl": "http://localhost:8001/mcp"
+    },
+    "bosszp": {
+      "baseUrl": "http://localhost:8000/mcp"
+    },
+    "xiaohongshu": {
+      "baseUrl": "http://localhost:18060/sse"
     }
   },
   "imports": []
