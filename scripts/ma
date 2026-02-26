@@ -1,0 +1,66 @@
+#!/bin/bash
+# 多 Agent 协作系统 - 快捷命令
+# 用法: ma <command> [args]
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PYTHON_SCRIPT="$SCRIPT_DIR/multi_agent.py"
+
+case "$1" in
+    "ultra"|"ultrawork")
+        # Ultrawork 模式: ma ultra "任务描述" [代理1,代理2,...]
+        shift
+        python3 "$PYTHON_SCRIPT" ultrawork "$@"
+        ;;
+    
+    "ralph")
+        # Ralph Loop 模式: ma ralph "任务描述" [代理]
+        shift
+        python3 "$PYTHON_SCRIPT" ralph "$@"
+        ;;
+    
+    "status"|"st")
+        # 查看状态: ma status [任务ID]
+        shift
+        python3 "$PYTHON_SCRIPT" status "$@"
+        ;;
+    
+    "agents"|"list")
+        # 列出所有代理
+        echo "🤖 可用代理:"
+        echo "  xiage       - 虾哥 (总指挥)"
+        echo "  gongzhonghao - 公众号助手 (内容官)"
+        echo "  kaifa       - 开发助手 (技术官)"
+        echo "  shiyun      - 始运助手 (分析师)"
+        echo "  qita        - 实验员 (通用)"
+        ;;
+    
+    "demo"|"test")
+        # 运行演示
+        echo "🎬 多 Agent 协作系统演示"
+        echo ""
+        echo "1️⃣  Ultrawork 模式示例:"
+        echo "   ma ultra '部署凡人修仙并写公众号文章' kaifa,gongzhonghao"
+        echo ""
+        echo "2️⃣  Ralph Loop 模式示例:"
+        echo "   ma ralph '修复登录bug' kaifa"
+        echo ""
+        echo "3️⃣  查看任务状态:"
+        echo "   ma status"
+        ;;
+    
+    *)
+        echo "🤖 多 Agent 协作系统 (Multi-Agent)"
+        echo ""
+        echo "用法:"
+        echo "  ma ultra '任务描述' [代理列表]     # Ultrawork 并行模式"
+        echo "  ma ralph '任务描述' [代理]          # Ralph Loop 死磕模式"
+        echo "  ma status [任务ID]                  # 查看任务状态"
+        echo "  ma agents                           # 列出可用代理"
+        echo "  ma demo                             # 查看示例"
+        echo ""
+        echo "示例:"
+        echo "  ma ultra '今天的工作总结' xiage,shiyun"
+        echo "  ma ralph '修复后端bug' kaifa"
+        echo "  ma status"
+        ;;
+esac
